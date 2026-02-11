@@ -1,28 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blessed Fadez</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blessed Fadez</title>
+
+  <meta name="theme-color" content="#0b0b0b" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- iPhone home screen icon (upload later) -->
+  <link rel="apple-touch-icon" href="icon-180.png" />
 </head>
 
 <body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <div class="brand-name">Blessed Fadez</div>
+        <div class="brand-sub">San Antonio • Open Daily 10AM–8PM • Last booking 7:30PM</div>
+      </div>
+    </div>
 
-<h1>Blessed Fadez</h1>
-<p>Open Daily 10AM – 8PM</p>
-<p>Last Booking 7:30PM</p>
+    <div class="top-actions">
+      <a class="btn ghost" href="https://www.instagram.com/blessedfadez210/" target="_blank" rel="noreferrer">Instagram</a>
+      <a class="btn" href="#book">Book Now</a>
+    </div>
+  </header>
 
-<button onclick="window.location.href='sms:+12104166066'">
-Book Now (Text Us)
-</button>
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Luxury Cuts. Clean Fades. Real Service.</h1>
+        <p class="muted">
+          Haircut (30 min) — <strong>$50</strong> • Text-to-book • Choose a barber or “Any Barber”.
+        </p>
 
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
+        <div class="hero-cta">
+          <a class="btn" href="#book">Book a Slot</a>
+          <a class="btn ghost" href="tel:+12104166066">Call: (210) 416-6066</a>
+        </div>
 
+        <div class="promo">
+          <div class="promo-title">Weekly Raffle</div>
+          <div class="promo-text">
+            Leave a review this week → you’re entered to win a raffle prize.
+            <a class="link" href="https://share.google/jITPcBEvsXUmNuoEn" target="_blank" rel="noreferrer">Leave a Google Review</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="book" class="section">
+      <div class="section-title">
+        <h2>Book by Text</h2>
+        <p class="muted">Pick a date, time, and barber — then it auto-texts us your booking request.</p>
+      </div>
+
+      <form id="bookingForm" class="card form">
+        <div class="grid">
+          <label>
+            <span>Date</span>
+            <input id="date" type="date" required />
+          </label>
+
+          <label>
+            <span>Time</span>
+            <select id="time" required></select>
+          </label>
+
+          <label>
+            <span>Service</span>
+            <select id="service" required>
+              <option value="Haircut (30 min) - $50">Haircut (30 min) - $50</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Barber</span>
+            <select id="barber" required></select>
+          </label>
+        </div>
+
+        <label>
+          <span>Name (optional)</span>
+          <input id="name" type="text" placeholder="Client name" />
+        </label>
+
+        <label>
+          <span>Notes (optional)</span>
+          <textarea id="notes" rows="3" placeholder="Example: low fade + lineup, beard too"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="btn" type="submit">Text Booking Request</button>
+          <a class="btn ghost" href="https://share.google/jITPcBEvsXUmNuoEn" target="_blank" rel="noreferrer">Directions / Reviews</a>
+        </div>
+
+        <div class="small muted">
+          After you tap “Text Booking Request”, your phone opens Messages with everything filled in — just hit Send.
+        </div>
+      </form>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Recent Cuts</h2>
+        <p class="muted">A few examples from the shop.</p>
+      </div>
+
+      <div id="gallery" class="gallery"></div>
+
+      <div class="small muted" style="margin-top:10px;">
+        Want your gallery updated weekly? Just upload new photos to this repo and we’ll add them.
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="muted">© <span id="year"></span> Blessed Fadez • (210) 416-6066</div>
+    </footer>
+  </main>
+
+  <div class="sticky">
+    <a class="btn" href="#book">Book Now</a>
+    <a class="btn ghost" href="tel:+12104166066">Call</a>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
 </body>
 </html>
