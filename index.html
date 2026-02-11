@@ -2,134 +2,355 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Blessed Fadez</title>
 
+  <!-- PWA -->
   <meta name="theme-color" content="#0b0b0b" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- iPhone home screen icon (upload later) -->
-  <link rel="apple-touch-icon" href="icon-180.png" />
+  <!-- iPhone icon (optional later) -->
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 
 <body>
+  <!-- Top Bar -->
   <header class="topbar">
     <div class="brand">
-      <div class="logo-dot"></div>
-      <div>
-        <div class="brand-name">Blessed Fadez</div>
-        <div class="brand-sub">San Antonio • Open Daily 10AM–8PM • Last booking 7:30PM</div>
+      <div class="logo-dot" aria-hidden="true"></div>
+      <div class="brand-text">
+        <h1>Blessed <span>Fadez</span></h1>
+        <p class="sub">
+          San Antonio • Open Daily <strong>10AM–8PM</strong> • Last booking <strong>7:30PM</strong>
+        </p>
       </div>
     </div>
 
     <div class="top-actions">
-      <a class="btn ghost" href="https://www.instagram.com/blessedfadez210/" target="_blank" rel="noreferrer">Instagram</a>
-      <a class="btn" href="#book">Book Now</a>
+      <a class="btn btn-ghost" href="https://instagram.com/theBlessFades210" target="_blank" rel="noreferrer">Instagram</a>
+      <a class="btn btn-primary" id="bookTopBtn" href="#">Book Now</a>
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero-card">
-        <h1>Luxury Cuts. Clean Fades. Real Service.</h1>
-        <p class="muted">
-          Haircut (30 min) — <strong>$50</strong> • Text-to-book • Choose a barber or “Any Barber”.
-        </p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-card">
+      <h2>Luxury Cuts. Clean Details.</h2>
+      <p>
+        30-minute service — <strong>$50</strong> (haircut + everything included).
+        Choose any barber or “Any Barber” for fastest availability.
+      </p>
 
-        <div class="hero-cta">
-          <a class="btn" href="#book">Book a Slot</a>
-          <a class="btn ghost" href="tel:+12104166066">Call: (210) 416-6066</a>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="bookNowBtn" type="button">Book by Text</button>
+        <a class="btn btn-ghost" href="tel:+12104166066">Call</a>
+      </div>
+
+      <p class="tiny">
+        Booking is by text message (no email). We’ll confirm your time.
+      </p>
+    </div>
+
+    <div class="hero-badge">
+      <div class="badge-inner">
+        <div class="badge-title">Blessed Fadez</div>
+        <div class="badge-sub">Black • Red • Luxury</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <main class="container">
+    <section class="panel" id="booking">
+      <div class="panel-head">
+        <h3>Book an Appointment</h3>
+        <p class="muted">Pick a barber (optional) + choose a time slot. Then tap “Send Text”.</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Service -->
+        <div class="card">
+          <h4>Service</h4>
+          <div class="service">
+            <div>
+              <div class="service-title">Haircut (30 min)</div>
+              <div class="service-sub">$50 • Everything included</div>
+            </div>
+            <span class="pill">30 min</span>
+          </div>
+
+          <div class="field">
+            <label for="dateSelect">Date</label>
+            <input id="dateSelect" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="barberSelect">Barber</label>
+            <select id="barberSelect">
+              <option value="Any Barber">Any Barber (Fastest)</option>
+              <option>Antonio</option>
+              <option>Pablo</option>
+              <option>Joel</option>
+              <option>David</option>
+              <option>Brian</option>
+              <option>Alex</option>
+              <option>Daniel</option>
+              <option>Liseth</option>
+              <option>Brandon</option>
+              <option>John</option>
+              <option>Angel</option>
+              <option>Anthony</option>
+            </select>
+          </div>
         </div>
 
-        <div class="promo">
-          <div class="promo-title">Weekly Raffle</div>
-          <div class="promo-text">
-            Leave a review this week → you’re entered to win a raffle prize.
-            <a class="link" href="https://share.google/jITPcBEvsXUmNuoEn" target="_blank" rel="noreferrer">Leave a Google Review</a>
+        <!-- Time Slots -->
+        <div class="card">
+          <h4>Select a Time</h4>
+          <p class="muted small">Open 10:00AM–8:00PM • Last booking 7:30PM</p>
+
+          <div class="slots" id="slots"></div>
+
+          <div class="summary" id="summary">
+            <div class="summary-row">
+              <span class="muted">Selected:</span>
+              <strong id="selectedText">None</strong>
+            </div>
+            <button class="btn btn-primary wide" id="sendTextBtn" type="button" disabled>
+              Send Text to Book
+            </button>
+            <button class="btn btn-ghost wide" id="copyDetailsBtn" type="button" disabled>
+              Copy booking details
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="book" class="section">
-      <div class="section-title">
-        <h2>Book by Text</h2>
-        <p class="muted">Pick a date, time, and barber — then it auto-texts us your booking request.</p>
-      </div>
-
-      <form id="bookingForm" class="card form">
-        <div class="grid">
-          <label>
-            <span>Date</span>
-            <input id="date" type="date" required />
-          </label>
-
-          <label>
-            <span>Time</span>
-            <select id="time" required></select>
-          </label>
-
-          <label>
-            <span>Service</span>
-            <select id="service" required>
-              <option value="Haircut (30 min) - $50">Haircut (30 min) - $50</option>
-            </select>
-          </label>
-
-          <label>
-            <span>Barber</span>
-            <select id="barber" required></select>
-          </label>
-        </div>
-
-        <label>
-          <span>Name (optional)</span>
-          <input id="name" type="text" placeholder="Client name" />
-        </label>
-
-        <label>
-          <span>Notes (optional)</span>
-          <textarea id="notes" rows="3" placeholder="Example: low fade + lineup, beard too"></textarea>
-        </label>
-
-        <div class="form-actions">
-          <button class="btn" type="submit">Text Booking Request</button>
-          <a class="btn ghost" href="https://share.google/jITPcBEvsXUmNuoEn" target="_blank" rel="noreferrer">Directions / Reviews</a>
-        </div>
-
-        <div class="small muted">
-          After you tap “Text Booking Request”, your phone opens Messages with everything filled in — just hit Send.
-        </div>
-      </form>
-    </section>
-
-    <section class="section">
-      <div class="section-title">
-        <h2>Recent Cuts</h2>
+    <!-- Gallery -->
+    <section class="panel" id="gallery">
+      <div class="panel-head">
+        <h3>Recent Cuts</h3>
         <p class="muted">A few examples from the shop.</p>
       </div>
 
-      <div id="gallery" class="gallery"></div>
+      <div class="gallery-grid">
+        <!-- MUST match your repo file names exactly -->
+        <figure class="shot"><img src="images/cut1.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut2.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut3.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut4.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut5.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut6.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut7.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut8.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut9.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+        <figure class="shot"><img src="images/cut10.jpg" alt="Blessed Fadez haircut" loading="lazy"></figure>
+      </div>
+    </section>
 
-      <div class="small muted" style="margin-top:10px;">
-        Want your gallery updated weekly? Just upload new photos to this repo and we’ll add them.
+    <!-- Footer CTA -->
+    <section class="cta">
+      <div class="cta-card">
+        <div>
+          <h3>Ready?</h3>
+          <p class="muted">Tap book now and we’ll confirm by text.</p>
+        </div>
+        <div class="cta-actions">
+          <button class="btn btn-primary" id="bookBottomBtn" type="button">Book Now</button>
+          <a class="btn btn-ghost" href="tel:+12104166066">Call</a>
+        </div>
       </div>
     </section>
 
     <footer class="footer">
-      <div class="muted">© <span id="year"></span> Blessed Fadez • (210) 416-6066</div>
+      <div class="footer-inner">
+        <div>
+          <strong>Blessed Fadez</strong>
+          <div class="muted small">Open Daily 10AM–8PM • Last booking 7:30PM</div>
+        </div>
+        <div class="footer-links">
+          <a href="https://instagram.com/theBlessFades210" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="#booking">Book</a>
+          <a href="#gallery">Gallery</a>
+        </div>
+      </div>
     </footer>
   </main>
 
-  <div class="sticky">
-    <a class="btn" href="#book">Book Now</a>
-    <a class="btn ghost" href="tel:+12104166066">Call</a>
+  <!-- Install banner (works best on Android/Chrome; iPhone uses Share → Add to Home Screen) -->
+  <div class="install" id="installBar" hidden>
+    <div class="install-left">
+      <div class="install-icon" aria-hidden="true"></div>
+      <div>
+        <div class="install-title">Install Blessed Fadez</div>
+        <div class="install-sub">Get the app on your home screen</div>
+      </div>
+    </div>
+    <div class="install-actions">
+      <button class="btn btn-primary" id="installBtn" type="button">Install</button>
+      <button class="btn btn-ghost" id="dismissInstallBtn" type="button">Not now</button>
+    </div>
   </div>
 
-  <script src="app.js"></script>
   <script>
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+    // Register Service Worker (PWA)
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(() => {});
+      });
+    }
+
+    // ---------- Booking logic ----------
+    const SHOP_PHONE = "+12104166066";
+
+    const dateSelect = document.getElementById("dateSelect");
+    const barberSelect = document.getElementById("barberSelect");
+    const slotsEl = document.getElementById("slots");
+    const selectedTextEl = document.getElementById("selectedText");
+    const sendTextBtn = document.getElementById("sendTextBtn");
+    const copyDetailsBtn = document.getElementById("copyDetailsBtn");
+
+    // set default date = today
+    const today = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    dateSelect.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+
+    // Build slots every 30 minutes: 10:00 -> 19:30 (last booking 7:30PM)
+    function buildSlots() {
+      slotsEl.innerHTML = "";
+      const startMinutes = 10 * 60;          // 10:00
+      const endMinutes = 19 * 60 + 30;       // 19:30
+      const step = 30;
+
+      for (let m = startMinutes; m <= endMinutes; m += step) {
+        const h24 = Math.floor(m / 60);
+        const min = m % 60;
+
+        const ampm = h24 >= 12 ? "PM" : "AM";
+        const h12 = ((h24 + 11) % 12) + 1;
+        const label = `${h12}:${pad(min)}${ampm}`;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "slot";
+        btn.textContent = label;
+        btn.dataset.time = label;
+
+        btn.addEventListener("click", () => {
+          // unselect others
+          document.querySelectorAll(".slot.selected").forEach(el => el.classList.remove("selected"));
+          btn.classList.add("selected");
+          updateSummary();
+        });
+
+        slotsEl.appendChild(btn);
+      }
+    }
+
+    function getSelectedTime() {
+      const sel = document.querySelector(".slot.selected");
+      return sel ? sel.dataset.time : "";
+    }
+
+    function bookingDetails() {
+      const date = dateSelect.value || "";
+      const barber = barberSelect.value || "Any Barber";
+      const time = getSelectedTime();
+      return { date, barber, time };
+    }
+
+    function updateSummary() {
+      const { date, barber, time } = bookingDetails();
+      if (!time) {
+        selectedTextEl.textContent = "None";
+        sendTextBtn.disabled = true;
+        copyDetailsBtn.disabled = true;
+        return;
+      }
+      selectedTextEl.textContent = `${date} • ${time} • ${barber}`;
+      sendTextBtn.disabled = false;
+      copyDetailsBtn.disabled = false;
+    }
+
+    function openSMS() {
+      const { date, barber, time } = bookingDetails();
+      if (!time) return;
+
+      const msg =
+        `Blessed Fadez Booking Request:%0A` +
+        `Service: Haircut (30 min) - $50%0A` +
+        `Date: ${date}%0A` +
+        `Time: ${time}%0A` +
+        `Barber: ${barber}%0A%0A` +
+        `Name: %0A` +
+        `Any notes:`;
+
+      // iPhone/Android SMS link
+      window.location.href = `sms:${SHOP_PHONE}?&body=${msg}`;
+    }
+
+    function copyDetails() {
+      const { date, barber, time } = bookingDetails();
+      const text =
+        `Blessed Fadez Booking Request:\n` +
+        `Service: Haircut (30 min) - $50\n` +
+        `Date: ${date}\n` +
+        `Time: ${time}\n` +
+        `Barber: ${barber}\n\n` +
+        `Name:\nAny notes:`;
+
+      navigator.clipboard?.writeText(text).catch(() => {});
+    }
+
+    document.getElementById("bookNowBtn").addEventListener("click", () => {
+      document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("bookTopBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("bookBottomBtn").addEventListener("click", () => {
+      document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+    });
+
+    sendTextBtn.addEventListener("click", openSMS);
+    copyDetailsBtn.addEventListener("click", copyDetails);
+
+    dateSelect.addEventListener("change", updateSummary);
+    barberSelect.addEventListener("change", updateSummary);
+
+    buildSlots();
+    updateSummary();
+
+    // ---------- Install prompt (Android/Chrome) ----------
+    let deferredPrompt = null;
+    const installBar = document.getElementById("installBar");
+    const installBtn = document.getElementById("installBtn");
+    const dismissInstallBtn = document.getElementById("dismissInstallBtn");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBar.hidden = false;
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      try { await deferredPrompt.userChoice; } catch {}
+      deferredPrompt = null;
+      installBar.hidden = true;
+    });
+
+    dismissInstallBtn.addEventListener("click", () => {
+      installBar.hidden = true;
+    });
   </script>
 </body>
 </html>
