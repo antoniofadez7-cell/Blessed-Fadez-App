@@ -1,1 +1,28 @@
-<html><body><h1>Blessed Fadez</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blessed Fadez</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Blessed Fadez</h1>
+<p>Open Daily 10AM – 8PM</p>
+<p>Last Booking 7:30PM</p>
+
+<button onclick="window.location.href='sms:+12104166066'">
+Book Now (Text Us)
+</button>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+
+</body>
+</html>
